@@ -1,5 +1,5 @@
 body{
-    background-color: #121212 
+    background-color: #121212;
 }
 
 .vertical-center {
@@ -12,4 +12,8 @@ body{
 
 .transparent{
     background:transparent !important
+}
+
+.item:hover{
+    background-color: darkgrey;
 }
