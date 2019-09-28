@@ -1,0 +1,7 @@
+none
+@@@
+{
+	"camera_state":"off",
+	"gps_coordinate":"-1.2681264;-78.6253061",
+	"movement_command":"still"
+}

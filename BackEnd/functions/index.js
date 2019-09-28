@@ -13,6 +13,28 @@ exports.adddHistoryData = functions.database.ref('/{robot}/')
       const robot = snapshot.after.val();
       console.log(JSON.stringify(snapshot, undefined, 2));
       return admin.firestore().collection('robotHistory').add({
-        robotData: robot
+        robotName: context.params.robot,
+        robotData: robot,
+        date: new Date() 
       });
-    });
+});
+
+exports.addNewRobot = functions.https.onRequest(async (req, res) => { 
+  const robotName = req.query.robot;
+  const robotData = req.body;
+
+  const robot = {
+      name: robotName,
+      creationDate: new Date(),
+      lastSeen: new Date()
+  };
+
+  const robotRes = await admin.firestore().collection('robots').add(robot);
+  const realTimeRobotRes = await admin.database().ref('/'+robotName).set(robotData);
+
+  console.log("CONSOLE1:"+robotRes);
+  console.log("CONSOLE2:"+realTimeRobotRes);
+
+  res.status(201).send(new Date());
+
+});

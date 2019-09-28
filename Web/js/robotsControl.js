@@ -35,8 +35,8 @@ function changeDatabaseReference(robotName) {
     robotReference.on('value', snap => {
         console.log(JSON.stringify(snap.val()));
 
-        if(snap.val().coordinates!=undefined)
-            updateMapMarker(snap.val().coordinates);
+        if(snap.val().gps_coordinate!=undefined)
+            updateMapMarker(snap.val().gps_coordinate);
 
         $("#robotfeed").html(JSON.stringify(snap.val(),null,2));
     });
@@ -52,7 +52,7 @@ function initMap() {
 }
 
 function updateMapMarker(position){
-    const coordinates = position.split("@");
+    const coordinates = position.split(";");
     const latD = parseFloat(coordinates[0]);
     const lngD = parseFloat(coordinates[1]);
     const latlng = {lat: latD, lng: lngD }

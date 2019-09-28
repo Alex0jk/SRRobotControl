@@ -7,26 +7,30 @@ var mapping = {
       value:"1"
     },
     X:{
-      collection:"camera",
-      value:"1"
+      collection:"camera_state",
+      value:"on"
     }
   },
   directions:{
     up:{
-      collection:"command",
+      collection:"movement_command",
       value:"forward"
     },  
     down:{
-      collection:"command",
+      collection:"movement_command",
       value:"backward"
     },
     left:{
-      collection:"command",
+      collection:"movement_command",
       value:"left"
     },
     right:{
-      collection:"command",
+      collection:"movement_command",
       value:"right"
+    },
+    stop:{
+      collection:"movement_command",
+      value:"still"
     }
   }
 };
@@ -96,26 +100,35 @@ function gameLoop(){
   }
   if (buttonPressed(gp.buttons[2])) { // Button X or Square
       console.log(mapping.buttons.X.value);
-      mapping.buttons.X.value="0";
+      console.log(updateRobotValue(mapping.buttons.X.collection,mapping.buttons.X.value));
+      /*if(mapping.buttons.X.value==="on")
+        mapping.buttons.X.value="off";
+      else
+        mapping.buttons.X.value="on";*/
+
   }
   if (buttonPressed(gp.buttons[3])) { // Button Y or Triangle
     console.log(gp);
   }
+
   if (buttonPressed(gp.buttons[12])) { // Button Up
     console.log(mapping.directions.up.value);
     console.log(updateRobotValue(mapping.directions.up.collection,mapping.directions.up.value));
   }
-  if (buttonPressed(gp.buttons[13])) { // Button Down
+  else if (buttonPressed(gp.buttons[13])) { // Button Down
     console.log(mapping.directions.down.value);
     updateRobotValue(mapping.directions.down.collection,mapping.directions.down.value);
   }
-  if (buttonPressed(gp.buttons[14])) { // Button Left
+  else if (buttonPressed(gp.buttons[14])) { // Button Left
     console.log(mapping.directions.left.value);
     updateRobotValue(mapping.directions.left.collection,mapping.directions.left.value);
   }
-  if (buttonPressed(gp.buttons[15])) { // Button Right
+  else if (buttonPressed(gp.buttons[15])) { // Button Right
     console.log(mapping.directions.right.value);
     updateRobotValue(mapping.directions.right.collection,mapping.directions.right.value);
+  }
+  else{
+    updateRobotValue(mapping.directions.stop.collection,mapping.directions.stop.value);
   }
   
   start = rAF(gameLoop);
