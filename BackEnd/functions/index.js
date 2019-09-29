@@ -28,7 +28,7 @@ exports.addNewRobot = functions.https.onRequest(async (req, res) => {
       creationDate: new Date(),
       lastSeen: new Date()
   };
-
+  console.log(robotData);
   const robotRes = await admin.firestore().collection('robots').add(robot);
   const realTimeRobotRes = await admin.database().ref('/'+robotName).set(robotData);
 
