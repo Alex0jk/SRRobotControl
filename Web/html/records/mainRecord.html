@@ -1,19 +1,122 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
-    <title>Control y Monitoreo</title>
+    <title>Registros de acciones</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!--
-        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-        <script src='main.js'></script>
-    -->
+    <link rel="stylesheet" href="../../css/menu.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
 </head>
+
 <body>
-    Debe de estisir una interfaz que permita navegar sobre diferentes elementos como ultimas acciones realizadas,
-    seleccion de actividad por robot. La visulaizacion de actividad debe incluir mapas, acciones, sensores, tiempos
-    comentarios.
+    <div class="wrapper text-white">
+        <div id="menu">
+        </div>
+        <div id="content">
+            <div class="container">
+                <div class="row mb-3">
+                    <div id="toggle" class="col-sm-2"></div>
+                    <div class="col-sm-4"></div>
+                    <div id="robotselect" class="col-sm-6">
+                        <select id="robots" class="browser-default custom-select"
+                            onchange="changeDatabaseReference(this.value)">
+                            <option value="" disabled selected>Choose your option</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-5">
+                        <div class="input-group date" id="datetimepickerfrom" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input"
+                                data-target="#datetimepickerfrom" />
+                            <div class="input-group-append" data-target="#datetimepickerfrom"
+                                data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-5">
+                        <div class="input-group date" id="datetimepickerto" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input"
+                                data-target="#datetimepickerto" />
+                            <div class="input-group-append" data-target="#datetimepickerto"
+                                data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="button" class="btn btn-primary" value="Search" onclick="searchRobotDataByDate()">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-6 scroll-class" >
+                        <table id="robotHistory" class="table text-white">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-6">
+                        <pre id="historyDetails" class="text-light">
+                                DATA
+                            </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    TEMPLATES    -->
+    <template id="robots-temeplate">
+        <option value="{{robotName}}">{{robotName}}</option>
+    </template>
+
+    <template id="history-data-template">
+        <tr class="item" onclick="showDetailedDate('{{id}}');">
+            <td>{{name}}</td>
+            <td>{{date}}</td>
+        </tr>
+    </template>
+
+    <!--Scripts-->
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-database.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.3/mustache.min.js"></script>
+
+    <script src="../../js/configuration.js"></script>
+    <script src="../../js/menu.js"></script>
+    <script src="../../js/robotActions.js"></script>
 </body>
+
 </html>

@@ -1,5 +1,7 @@
-robot40863986-e2d1-11e9-ae6a-3065ec3a1705@@@
+none
+@@@
 {
 	"camera_state":"off",
-	"movement_command":"still"
+	"movement_command":"still",
+	"gps_coordinate":"123;123"
 }

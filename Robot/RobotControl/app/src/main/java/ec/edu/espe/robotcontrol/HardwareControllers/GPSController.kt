@@ -29,7 +29,7 @@ class GPSController(
 
             mLocationManager!!.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
-                900,
+                5000,
                 1.5f,
                 mLocationListener
             )

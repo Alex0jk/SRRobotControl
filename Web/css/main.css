@@ -17,3 +17,8 @@ body{
 .item:hover{
     background-color: darkgrey;
 }
+
+.scroll-class {
+    height:500px;
+    overflow-y: scroll;
+  }

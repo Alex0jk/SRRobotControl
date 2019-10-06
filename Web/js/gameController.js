@@ -36,6 +36,7 @@ var mapping = {
 };
 var currentRobot = "robot12342";
 var start;
+var buttonStates = [false,false,false,false]
 
 var rAF = window.mozRequestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
@@ -63,6 +64,7 @@ if(!('GamepadEvent' in window)) {
 }
 function pollGamepads() {
   var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+  buttonStates = [false,false,false,false]
   for (var i = 0; i < gamepads.length; i++) {
     var gp = gamepads[i];
     if(gp) {
@@ -98,14 +100,19 @@ function gameLoop(){
   if (buttonPressed(gp.buttons[1])) { // Button B or Circle
       
   }
-  if (buttonPressed(gp.buttons[2])) { // Button X or Square
+  if (buttonPressed(gp.buttons[2]) && buttonStates[2] == false) { // Button X or Square
+      buttonStates[2] = true;
+      console.log(buttonStates[2]);
       console.log(mapping.buttons.X.value);
       console.log(updateRobotValue(mapping.buttons.X.collection,mapping.buttons.X.value));
-      /*if(mapping.buttons.X.value==="on")
+      if(mapping.buttons.X.value==="on")
         mapping.buttons.X.value="off";
       else
-        mapping.buttons.X.value="on";*/
-
+        mapping.buttons.X.value="on";
+  }
+  else if(!buttonPressed(gp.buttons[2]) && buttonStates[2] == true){
+    buttonStates[2] = false;
+    console.log(buttonStates[2]);
   }
   if (buttonPressed(gp.buttons[3])) { // Button Y or Triangle
     console.log(gp);
@@ -129,8 +136,8 @@ function gameLoop(){
   }
   else{
     updateRobotValue(mapping.directions.stop.collection,mapping.directions.stop.value);
-  }
-  
+  } 
+    
   start = rAF(gameLoop);
 }
 
