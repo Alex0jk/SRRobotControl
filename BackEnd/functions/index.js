@@ -38,3 +38,17 @@ exports.addNewRobot = functions.https.onRequest(async (req, res) => {
   res.status(201).send(new Date());
 
 });
+
+exports.addNewRobotMapping = functions.https.onRequest(async (req, res) => { 
+  const robotName = req.query.robot;
+  const mappingData = req.body;
+
+  const robotMap = {
+      name: robotName,
+      mapping:mappingData
+  };
+  const robotMapRes = await admin.firestore().collection('robotMapping').add(robotMap);
+  console.log("CONSOLE1:"+robotMapRes);
+  res.status(201).send(new Date());
+
+});

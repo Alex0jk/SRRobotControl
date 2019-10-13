@@ -30,6 +30,7 @@ var marker;
 function changeDatabaseReference(robotName) {
     initMap();
     currentRobot = robotName;
+    getRobotMapping(currentRobot);
     robotReference = realtimedb.ref().child(robotName);
 
     robotReference.on('value', snap => {
@@ -68,4 +69,24 @@ function updateMapMarker(position){
     }
     map.panTo(latlng);
     map.setZoom(8);
+}
+
+function getRobotMapping(robotName){
+    let robotMapRef = db.collection('robotMapping');
+    if (robotName !== "") {
+        let query = robotMapRef.where('name', '==', robotName).get()
+            .then(snapshot => {
+                
+                if (snapshot.empty) {
+                    console.log('No matching documents.');
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    mapping = doc.data().mapping;
+                });
+            })
+            .catch(err => {
+                console.log('Error getting documents', err);
+            });
+    }
 }

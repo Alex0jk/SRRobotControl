@@ -1,39 +1,6 @@
 var realdb = firebase.database();
 
-var mapping = {
-  buttons:{
-    A:{
-      collection:"light",
-      value:"1"
-    },
-    X:{
-      collection:"camera_state",
-      value:"on"
-    }
-  },
-  directions:{
-    up:{
-      collection:"movement_command",
-      value:"forward"
-    },  
-    down:{
-      collection:"movement_command",
-      value:"backward"
-    },
-    left:{
-      collection:"movement_command",
-      value:"left"
-    },
-    right:{
-      collection:"movement_command",
-      value:"right"
-    },
-    stop:{
-      collection:"movement_command",
-      value:"still"
-    }
-  }
-};
+var mapping;
 var currentRobot = "robot12342";
 var start;
 var buttonStates = [false,false,false,false]
