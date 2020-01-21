@@ -8,7 +8,7 @@ import net.ossrs.rtmp.ConnectCheckerRtmp
 
 class CameraStreamController {
     companion object {
-        private var etUrl: String = "rtmp://a.rtmp.youtube.com/live2/yrjs-gqud-kvqg-82my"
+        private var etUrl: String = "RTMP LINK"
         private var rtmpCamera2: RtmpCamera2? = null
 
         public fun initializeCamera(surfaceView:SurfaceView, context:ConnectCheckerRtmp){
@@ -21,7 +21,7 @@ class CameraStreamController {
             if(rtmpCamera2!=null) {
                 if (!rtmpCamera2!!.isStreaming) {
                     rtmpCamera2!!.disableAudio()
-                    if (rtmpCamera2!!.prepareVideo(640, 480, 30, 1200 * 1024, false, 4, 0)
+                    if (rtmpCamera2!!.prepareVideo(1280, 720, 30, 1200 * 1024, false, 4, 0)
                         && rtmpCamera2!!.prepareAudio()
                     ) {
                         //rtmpCamera2!!.disableAudio()

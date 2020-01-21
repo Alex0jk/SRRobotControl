@@ -1,0 +1,32 @@
+none
+@@@
+{
+  "buttons":{
+    "X":{
+      "collection":"camera_state",
+      "value":"on"
+    }
+  },
+  "directions":{
+    "up":{
+      "collection":"movement_command",
+      "value":"forward"
+    },  
+    "down":{
+       "collection":"movement_command",
+      "value":"backward"
+    },
+    "left":{
+       "collection":"movement_command",
+      "value":"left"
+    },
+    "right":{
+       "collection":"movement_command",
+      "value":"right"
+    },
+    "stop":{
+       "collection":"movement_command",
+      "value":"still"
+    }
+  }
+}

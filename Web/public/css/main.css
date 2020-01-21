@@ -1,0 +1,24 @@
+body{
+    background-color: #121212;
+}
+
+.vertical-center {
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh; /* These two lines are counted as one :-)       */
+  
+    display: flex;
+    align-items: center;
+}
+
+.transparent{
+    background:transparent !important
+}
+
+.item:hover{
+    background-color: darkgrey;
+}
+
+.scroll-class {
+    height:500px;
+    overflow-y: scroll;
+  }
