@@ -8,10 +8,10 @@ class FirebaseController:
 
     def __init__(self):
         self.config = {
-            "apiKey": "AIzaSyCVjeIUnXoM85uAjNYVbMX5qkCFsELgI5w",
-            "authDomain": "tsrrcontrolmonit.firebaseapp.com",
-            "databaseURL": "https://tsrrcontrolmonit.firebaseio.com",
-            "storageBucket": "tsrrcontrolmonit.appspot.com",
+            "apiKey": "key",
+            "authDomain": "domain",
+            "databaseURL":"",
+            "storageBucket": "",
         }
         self.firebase = pyrebase.initialize_app(self.config)
         self.controller = RpiController.RpiController()
